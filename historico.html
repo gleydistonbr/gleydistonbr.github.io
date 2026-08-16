@@ -1,0 +1,247 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Acesso Fácil - Histórico</title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f9fc;
+            color: #222;
+            min-height: 100vh;
+        }
+
+
+        /* TOPO */
+
+        .topo {
+            background: #0066cc;
+            color: white;
+            padding: 22px 20px;
+        }
+
+
+        .topo h1 {
+            max-width: 900px;
+            margin: auto;
+            font-size: 26px;
+        }
+
+
+        /* CONTEÚDO */
+
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+
+        h2 {
+            color: #0066cc;
+            margin-bottom: 25px;
+        }
+
+
+        /* CARDS */
+
+        .historico {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+        }
+
+
+        .card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+        }
+
+
+        .titulo {
+            color: #777;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+
+
+        .valor {
+            color: #0066cc;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+
+        /* BOTÃO VOLTAR */
+
+        .voltar {
+            width: 100%;
+            margin-top: 30px;
+            padding: 14px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+
+        .voltar:hover {
+            background: #0052a3;
+        }
+
+
+        /* CELULAR */
+
+        @media (max-width: 650px) {
+
+            .historico {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- TOPO -->
+
+    <header class="topo">
+
+        <h1>
+            Acesso Fácil
+        </h1>
+
+    </header>
+
+
+
+    <!-- CONTEÚDO -->
+
+    <main class="container">
+
+        <h2>
+            Histórico
+        </h2>
+
+
+        <div class="historico">
+
+
+            <!-- CLIENTES -->
+
+            <div class="card">
+
+                <div class="titulo">
+                    Clientes conectados
+                </div>
+
+                <div
+                    class="valor"
+                    id="clientes"
+                >
+                    3
+                </div>
+
+            </div>
+
+
+
+            <!-- PAGAMENTOS -->
+
+            <div class="card">
+
+                <div class="titulo">
+                    Pagamentos realizados
+                </div>
+
+                <div
+                    class="valor"
+                    id="pagamentos"
+                >
+                    15
+                </div>
+
+            </div>
+
+
+
+            <!-- VALOR -->
+
+            <div class="card">
+
+                <div class="titulo">
+                    Valor total recebido
+                </div>
+
+                <div
+                    class="valor"
+                    id="total"
+                >
+                    R$ 85,00
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+        <!-- VOLTAR -->
+
+        <button
+            class="voltar"
+            onclick="voltar()"
+        >
+            ← Voltar
+        </button>
+
+
+    </main>
+
+
+
+    <script>
+
+        function voltar() {
+
+            window.location.href =
+                "admin.html";
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

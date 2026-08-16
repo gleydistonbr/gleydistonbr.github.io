@@ -1,0 +1,149 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Acesso Fácil - Login</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .login {
+            width: 90%;
+            max-width: 380px;
+            padding: 30px;
+            border: 1px solid #ddd;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.10);
+        }
+
+        h1 {
+            color: #0066cc;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        p {
+            text-align: center;
+            color: #777;
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            margin-bottom: 18px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            background: #0066cc;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0052a3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="login">
+
+        <h1>Acesso Fácil</h1>
+
+        <p>Área administrativa</p>
+
+        <form id="loginForm">
+
+            <label>Usuário</label>
+
+            <input
+                type="text"
+                id="usuario"
+                placeholder="Digite seu usuário"
+                required
+            >
+
+            <label>Senha</label>
+
+            <input
+                type="password"
+                id="senha"
+                placeholder="Digite sua senha"
+                required
+            >
+
+            <button type="submit">
+                Entrar
+            </button>
+
+        </form>
+
+    </div>
+
+    <script>
+
+        document
+            .getElementById("loginForm")
+            .addEventListener("submit", function(event) {
+
+                event.preventDefault();
+
+                /*
+                 * POR ENQUANTO É APENAS UM TESTE.
+                 * Depois vamos colocar a autenticação real.
+                 */
+
+                const usuario =
+                    document.getElementById("usuario").value;
+
+                const senha =
+                    document.getElementById("senha").value;
+
+                if (usuario !== "" && senha !== "") {
+
+                    window.location.href = "admin.html";
+
+                } else {
+
+                    alert("Digite usuário e senha.");
+
+                }
+
+            });
+
+    </script>
+
+</body>
+</html>

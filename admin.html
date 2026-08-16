@@ -1,0 +1,485 @@
+<meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Acesso Fácil - Administração</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f7f9fc;
+            color: #222;
+            min-height: 100vh;
+        }
+
+        /* TOPO */
+        .topo {
+            background: #0066cc;
+            color: white;
+            padding: 22px 20px;
+        }
+
+        .topo h1 {
+            max-width: 900px;
+            margin: auto;
+            font-size: 26px;
+        }
+
+        /* CONTEÚDO */
+        .container {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .cabecalho-planos {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .cabecalho-planos h2 {
+            color: #0066cc;
+            font-size: 22px;
+        }
+
+        .adicionar {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .adicionar:hover {
+            background: #0052a3;
+        }
+
+        /* PLANOS */
+        .plano {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 18px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+        }
+
+        .campo {
+            margin-bottom: 15px;
+        }
+
+        .campo label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .campo input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+            font-size: 16px;
+        }
+
+        .campo input:focus {
+            outline: none;
+            border-color: #0066cc;
+        }
+
+        /* BOTÕES */
+        .botoes {
+            display: flex;
+            gap: 10px;
+        }
+
+        .salvar {
+            background: #0066cc;
+            color: white;
+            border: none;
+            padding: 11px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .excluir {
+            background: white;
+            color: #cc0000;
+            border: 1px solid #cc0000;
+            padding: 11px 20px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* MENSAGEM */
+        .mensagem {
+            display: none;
+            background: #e8f4ff;
+            color: #0066cc;
+            padding: 12px;
+            border-radius: 7px;
+            margin-bottom: 20px;
+        }
+
+        /* SAIR */
+        .area-sair {
+            margin-top: 40px;
+            background: #0066cc;
+            padding: 18px 20px;
+            text-align: center;
+        }
+
+        .botao-sair {
+            background: transparent;
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .botao-sair:hover {
+            text-decoration: underline;
+        }
+
+        /* CELULAR */
+        @media (max-width: 600px) {
+
+            .cabecalho-planos {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 15px;
+            }
+
+            .adicionar {
+                width: 100%;
+            }
+
+            .botoes {
+                flex-direction: column;
+            }
+
+            .salvar,
+            .excluir {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOPO -->
+    <header class="topo">
+        <h1>Acesso Fácil</h1>
+    </header>
+
+
+    <!-- CONTEÚDO -->
+    <main class="container">
+
+        <div class="cabecalho-planos">
+
+            <h2>Meus Planos</h2>
+
+            <button id="botaoHistorico" class="adicionar">
+                Ver Historico
+            </button>
+
+            <button class="adicionar" onclick="adicionarPlano()">
+                Adicionar Plano
+            </button>
+
+            <button class="adicionar" onclick="abrirCliente()">
+                Ver página do cliente
+            </button>
+
+        </div>
+
+        <div id="mensagem" class="mensagem"></div>
+
+        <!-- OS PLANOS APARECEM AQUI -->
+        <div id="listaPlanos"></div>
+
+    </main>
+
+
+    <!-- SAIR -->
+    <div class="area-sair">
+
+        <button class="botao-sair" onclick="sair()">
+            Sair
+        </button>
+
+    </div>
+
+
+    <script>
+
+        let planos = JSON.parse(
+            localStorage.getItem("planosAcessoFacil")
+        ) || [
+            {
+                nome: "Plano 1",
+                tempo: "1 hora",
+                valor: "5.00"
+            },
+            {
+                nome: "Plano 2",
+                tempo: "3 horas",
+                valor: "10.00"
+            },
+            {
+                nome: "Plano 3",
+                tempo: "24 horas",
+                valor: "20.00"
+            }
+        ];
+
+
+        function mostrarPlanos() {
+
+            const lista = document.getElementById("listaPlanos");
+
+            lista.innerHTML = "";
+
+
+            planos.forEach((plano, index) => {
+
+                const div = document.createElement("div");
+
+                div.className = "plano";
+
+
+                div.innerHTML = `
+
+                    <div class="campo">
+
+                        <label>
+                            Nome do plano
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nome-${index}"
+                            value="${plano.nome}"
+                        >
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label>
+                            Tempo de acesso
+                        </label>
+
+                        <input
+                            type="text"
+                            id="tempo-${index}"
+                            value="${plano.tempo}"
+                            placeholder="Ex.: 2 horas"
+                        >
+
+                    </div>
+
+
+                    <div class="campo">
+
+                        <label>
+                            Valor (R$)
+                        </label>
+
+                        <input
+                            type="number"
+                            id="valor-${index}"
+                            value="${plano.valor}"
+                            step="0.01"
+                            min="0"
+                        >
+
+                    </div>
+
+
+                    <div class="botoes">
+
+                        <button
+                            class="salvar"
+                            onclick="salvarPlano(${index})">
+                            Salvar
+                        </button>
+
+
+                        <button
+                            class="excluir"
+                            onclick="excluirPlano(${index})">
+                            Excluir
+                        </button>
+
+                    </div>
+
+                `;
+
+
+                lista.appendChild(div);
+
+            });
+
+        }
+
+
+        function salvarPlano(index) {
+
+            planos[index].nome =
+                document.getElementById(
+                    `nome-${index}`
+                ).value;
+
+
+            planos[index].tempo =
+                document.getElementById(
+                    `tempo-${index}`
+                ).value;
+
+
+            planos[index].valor =
+                document.getElementById(
+                    `valor-${index}`
+                ).value;
+
+
+            localStorage.setItem(
+                "planosAcessoFacil",
+                JSON.stringify(planos)
+            );
+
+
+            mostrarMensagem(
+                "Plano salvo com sucesso!"
+            );
+
+
+            mostrarPlanos();
+
+        }
+
+
+        function adicionarPlano() {
+
+            planos.push({
+
+                nome: "Novo plano",
+
+                tempo: "1 hora",
+
+                valor: "0.00"
+
+            });
+
+
+            localStorage.setItem(
+                "planosAcessoFacil",
+                JSON.stringify(planos)
+            );
+
+
+            mostrarPlanos();
+
+        }
+
+
+        function excluirPlano(index) {
+
+            if (
+                !confirm(
+                    "Deseja realmente excluir este plano?"
+                )
+            ) {
+                return;
+            }
+
+
+            planos.splice(index, 1);
+
+
+            localStorage.setItem(
+                "planosAcessoFacil",
+                JSON.stringify(planos)
+            );
+
+
+            mostrarMensagem(
+                "Plano excluído."
+            );
+
+
+            mostrarPlanos();
+
+        }
+
+
+        function mostrarMensagem(texto) {
+
+            const mensagem =
+                document.getElementById("mensagem");
+
+
+            mensagem.innerText = texto;
+
+            mensagem.style.display = "block";
+
+
+            setTimeout(() => {
+
+                mensagem.style.display = "none";
+
+            }, 2500);
+
+        }
+
+
+        function sair() {
+
+            if (
+                confirm(
+                    "Deseja sair da área administrativa?"
+                )
+            ) {
+
+                window.location.href =
+                    "admin-login.html";
+
+            }
+
+            }
+
+        function abrirCliente() {
+                window.location.href = "index.html";
+        }
+
+        document.getElementById("botaoHistorico").
+        addEventListener("click", function() {
+            window.location.href = "historico.html";});
+
+        // Carrega os planos quando a página abre
+        mostrarPlanos();
+
+    </script>
+
+</body>
+</html>
